@@ -2,32 +2,27 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yedam.app.emp.mapper.EmpMapper">
-	<sql id="empSql">
-		<where>
+<mapper namespace="com.yedam.app.emp.mapper.DeptMapper">
+	<sql id="deptSql">
+		
 			<if test="departmentId != null and departmentId != '' ">
-				and department_id in
+				where department_id in
 				<foreach open="(" close=")" collection="deptArr" item="dept"
 					separator=",">
 					#{dept}
 				</foreach>
 			</if>
-			<if test="firstName != null and firstName != '' ">
-				and first_name like '%${firstName}%'<!--$ 는 따옴표없이 값을 보내줄때 사용한다 -->
-			</if>
-		</where>
+		
 	</sql>
-	<insert id="insertEmp">
-		<selectKey keyProperty="employeeId" 
+	<insert id="insertDept">
+		<selectKey keyProperty="departmentId" 
 				   resultType="String" 
 				   order="BEFORE">
-			select max(employee_id) +1 
-			from employees
+			select max(department_id) +10
+			from departments
 		</selectKey>
-		insert into employees (EMPLOYEE_ID, LAST_NAME, EMAIL,
-		HIRE_DATE , JOB_ID ,department_id)
-		values (#{employeeId} , #{lastName} ,
-		#{email}, sysdate , #{jobId},#{departmentId})
+		insert into departments (department_id, department_name,manager_id,location_id)
+		values (#{departmentId},#{departmentName},#{managerId},#{locationId})
 	</insert>
 	<select id="selectOne" parameterType="int" resultType="EmpVO">
 		select
@@ -36,30 +31,30 @@
 		where employee_id =
 		#{empNo}
 	</select>
-	<select id="selectList" resultType="EmpVO">
-		select employee_id , first_name , last_name , department_id,email,job_id
+	<select id="selectDeptList" resultType="DeptVO">
+		select department_id , department_name , manager_id , location_id
 		from
-		employees
-		<include refid="empSql"></include>
+		departments
+		<include refid="deptSql"></include>
 		<choose>
 			<when test="orderColumn != null">
 				order by ${orderColumn}
 			</when>
 			<otherwise>
-				order by employee_id
+				order by department_id
 			</otherwise>
 		</choose>
 	</select>
 	<select id="selectCount" resultType="int">
 		select count(*) 
 		from employees
-		<include refid="empSql"></include>
+		<include refid="deptSql"></include>
 	</select>
-	<select id="selectJobs" resultType="map">
-		select job_id "jobId",
-			   job_title "jobTitle"
-		from jobs
-		order by job_title
+	<select id="selectManagerId" resultType="int">
+		select manager_id from employees
+	</select>
+	<select id="selectLocationId" resultType="int">
+		select location_id from locations
 	</select>
 	
 	<select id="selectDepartmentId" resultType="map">

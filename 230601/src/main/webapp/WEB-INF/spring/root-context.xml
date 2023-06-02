@@ -10,21 +10,26 @@ https://www.springframework.org/schema/beans/spring-beans.xsd">
 	<!-- datasource connection pool -->
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName"
-			value="oracle.jdbc.driver.OracleDriver" />
+			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
 		<property name="jdbcUrl"
-			value="jdbc:oracle:thin:@127.0.0.1:1521:xe" />
+			value="jdbc:log4jdbc:oracle:thin:@127.0.0.1:1521:xe" />
 		<property name="username" value="hr" />
 		<property name="password" value="hr" />
 	</bean>
+	
+	<!-- 커넥션 풀 생성해준다  -->
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
 		destroy-method="close">
 		<constructor-arg ref="hikariConfig" />
 	</bean>
+	
 	<!-- mybatis SqlSessionFactory -->
+	<!-- sqlsessionBean 이 mapper.xml 에 있는 쿼리를 실행 시켜준다 -->
 	<bean class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatisconfiguration.xml" />
 	</bean>
-	
+	<!-- 인터페이스 클래스로 구현해서 실행시켜준다 -->
 	<mybatis-spring:scan base-package="com.yedam.app.**.mapper"/>
 </beans>
 
