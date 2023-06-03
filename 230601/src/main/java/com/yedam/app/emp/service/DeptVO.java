@@ -8,8 +8,8 @@ public class DeptVO {
 //	LOCATION_ID
 	
 	private String departmentName;
-	private int managerId;
-	private int locationId;
+	private String managerId;
+	private String locationId;
 	private String departmentId;
 	private String orderColumn;
 	public String[] getDeptArr() {
@@ -34,16 +34,16 @@ public class DeptVO {
 	public void setDepartmentName(String departmentName) {
 		this.departmentName = departmentName;
 	}
-	public int getManagerId() {
+	public String getManagerId() {
 		return managerId;
 	}
-	public void setManagerId(int managerId) {
+	public void setManagerId(String managerId) {
 		this.managerId = managerId;
 	}
-	public int getLocationId() {
+	public String getLocationId() {
 		return locationId;
 	}
-	public void setLocationId(int locationId) {
+	public void setLocationId(String locationId) {
 		this.locationId = locationId;
 	}
 }

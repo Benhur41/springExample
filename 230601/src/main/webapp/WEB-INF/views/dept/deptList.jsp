@@ -12,6 +12,7 @@
 <a href="deptInsert">등록</a>
 <form action="deptList">
 	부서ID<input name="departmentId">
+	locationID<input name="locationId">
 	<button>검색</button>
 </form>
 	<table border="1">
@@ -21,6 +22,8 @@
 				<th>부서</th>
 				<th>ManagerId</th>
 				<th>locationId</th>
+				<th>수정</th>
+				<th>삭제</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -30,8 +33,8 @@
 					<td>${dept.departmentName}</td>
 					<td>${dept.managerId}</td>
 					<td>${dept.locationId}</td>
-					<td><a href="empUpdate?employeeId=">수정</a></td>
-					<td><a href="empDelete?employeeId=">삭제</a></td>
+					<td><a href="deptUpdate?departmentId=${dept.departmentId }">수정</a></td>
+					<td><a href="deptDelete?departmentId=${dept.departmentId }">삭제</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>

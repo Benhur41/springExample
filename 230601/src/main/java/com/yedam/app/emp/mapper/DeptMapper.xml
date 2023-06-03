@@ -4,15 +4,18 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.emp.mapper.DeptMapper">
 	<sql id="deptSql">
-		
+			<where>
 			<if test="departmentId != null and departmentId != '' ">
-				where department_id in
+				and department_id in
 				<foreach open="(" close=")" collection="deptArr" item="dept"
 					separator=",">
 					#{dept}
 				</foreach>
 			</if>
-		
+			<if test="locationId != null and locationId != '' ">
+				and location_id = #{locationId}
+			</if>
+			</where>
 	</sql>
 	<insert id="insertDept">
 		<selectKey keyProperty="departmentId" 
@@ -24,12 +27,10 @@
 		insert into departments (department_id, department_name,manager_id,location_id)
 		values (#{departmentId},#{departmentName},#{managerId},#{locationId})
 	</insert>
-	<select id="selectOne" parameterType="int" resultType="EmpVO">
-		select
-		employee_id , first_name , last_name ,email ,department_id,job_id,TO_CHAR(HIRE_DATE,'yyyy-mm-dd') hire_date
-		from employees
-		where employee_id =
-		#{empNo}
+	<select id="selectDeptOne" resultType="DeptVO">
+		select *
+		from departments
+		where department_id = #{departmentId}
 	</select>
 	<select id="selectDeptList" resultType="DeptVO">
 		select department_id , department_name , manager_id , location_id
@@ -50,27 +51,28 @@
 		from employees
 		<include refid="deptSql"></include>
 	</select>
-	<select id="selectManagerId" resultType="int">
-		select manager_id from employees
+	<select id="selectManagerId" resultType="map">
+		select distinct(b.manager_id) , a.first_name 
+		from employees a join employees b 
+		on b.manager_id = a.employee_id
 	</select>
-	<select id="selectLocationId" resultType="int">
-		select location_id from locations
+	<select id="selectLocationId" resultType="map">
+		select location_id,street_address from locations
 	</select>
 	
 	<select id="selectDepartmentId" resultType="map">
 		select department_id,department_name from departments
 	</select>
-	<delete id="deleteEmp">
+	<delete id="deleteDept">
 		delete 
-		from employees 
-		where employee_id = #{employeeId}
+		from departments 
+		where department_id = #{departmentId}
 	</delete>
-	<update id="updateEmp">
-		update employees
-		set last_name=#{lastName},
-			email=#{email},
-			job_id=#{jobId},
-			department_id=#{departmentId}
-		where employee_id = #{employeeId}
+	<update id="updateDept">
+		update departments
+		set department_name=#{departmentName},
+			manager_id=#{managerId},
+			location_id=#{locationId}
+		where department_id = #{departmentId}
 	</update>
 </mapper>
