@@ -11,18 +11,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.yedam.app.emp.mapper.DeptMapper;
+import com.yedam.app.emp.service.DeptService;
 import com.yedam.app.emp.service.DeptVO;
 
 @Controller
 public class DeptController {
 	
 	@Autowired
+	DeptService deptService;
+	
+	@Autowired
 	DeptMapper deptMapper;
+	
+	// 경로 <-> 기능 ( view )
+	// 경로 + Method -> Unique 각 메소드 (GET, POST ... ) 에 맞춰서 경로설정 (GetMapping , PostMapping ... )
+	// 조회 -> GET / 등록 수정 삭제 -> POST (일반적)
+	
 	//전체조회
-	@GetMapping("/deptList")
+	@RequestMapping("/deptList")
 	public String deptList(DeptVO vo,Model model) {
-		
-		model.addAttribute("deptList", deptMapper.selectDeptList(vo));
+		model.addAttribute("deptList", deptService.getAllDept(vo));
 		return "dept/deptList";
 	}
 	
@@ -39,7 +47,7 @@ public class DeptController {
 	//등록기능
 	@PostMapping("/deptInsert")
 	public String deptInsert(DeptVO vo) {
-		int success = deptMapper.insertDept(vo);
+		int success = deptService.insertDeptInfo(vo);
 		if(success > 0 ) {
 			return "redirect:/deptList";
 		}else {
@@ -58,7 +66,7 @@ public class DeptController {
 		}
 	}
 	
-	//수정 페이지
+	//수정 페이지 - 단건조회와 동일
 	@GetMapping("/deptUpdate")
 	public String deptUpdateForm(String departmentId , Model model) {
 		DeptVO vo = deptMapper.selectDeptOne(departmentId);
