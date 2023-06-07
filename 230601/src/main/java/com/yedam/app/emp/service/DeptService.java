@@ -13,5 +13,5 @@ public interface DeptService {
 	// 수정
 	public Map<String,Object> updateDeptInfo(List<DeptVO> deptVO);
 	// 삭제
-	public int deleteDeptInfo(List<String> deptVO);
+	public int deleteDeptInfo(List<DeptVO> deptVO);
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yedam.app.emp.mapper.DeptMapper;
+import com.yedam.app.emp.service.DeptListVO;
 import com.yedam.app.emp.service.DeptService;
 import com.yedam.app.emp.service.DeptVO;
 
@@ -63,9 +64,9 @@ public class DeptServiceImpl implements DeptService {
 	}
 
 	@Override
-	public int deleteDeptInfo(List<String> deptVO) {
+	public int deleteDeptInfo(List<DeptVO> deptVO) {
 		int count = 0 ; 
-		for(String deptInfo : deptVO) {
+		for(DeptVO deptInfo : deptVO) {
 			count += deptMapper.deleteDept(deptInfo);
 		}
 		return count;

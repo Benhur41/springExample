@@ -3,6 +3,7 @@ package com.yedam.app.emp.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.yedam.app.emp.service.DeptListVO;
 import com.yedam.app.emp.service.DeptVO;
 
 public interface DeptMapper {
@@ -17,5 +18,5 @@ public interface DeptMapper {
 	//수정
 	public int updateDept(DeptVO vo);
 	//삭제
-	public int deleteDept(String departmentId);
+	public int deleteDept(DeptVO vo);
 }
