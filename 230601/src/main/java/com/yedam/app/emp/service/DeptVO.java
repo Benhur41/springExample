@@ -1,6 +1,8 @@
 package com.yedam.app.emp.service;
 
+import lombok.Data;
 
+@Data
 public class DeptVO {
 //	DEPARTMENT_ID
 //	DEPARTMENT_NAME
@@ -16,18 +18,6 @@ public class DeptVO {
 		return departmentId.split(",");
 	}
 	
-	public String getOrderColumn() {
-		return orderColumn;
-	}
-	public void setOrderColumn(String orderColumn) {
-		this.orderColumn = orderColumn;
-	}
-	public String getDepartmentId() {
-		return departmentId;
-	}
-	public void setDepartmentId(String departmentId) {
-		this.departmentId = departmentId;
-	}
 	public String getDepartmentName() {
 		return departmentName;
 	}
@@ -46,4 +36,18 @@ public class DeptVO {
 	public void setLocationId(String locationId) {
 		this.locationId = locationId;
 	}
+	public String getDepartmentId() {
+		return departmentId;
+	}
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
+	}
+	public String getOrderColumn() {
+		return orderColumn;
+	}
+	public void setOrderColumn(String orderColumn) {
+		this.orderColumn = orderColumn;
+	}
+	
+
 }

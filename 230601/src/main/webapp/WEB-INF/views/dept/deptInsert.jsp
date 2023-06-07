@@ -12,12 +12,13 @@
 		<table border="1">
 			<tr>
 				<th>departmentName</th>
-				<td><input name="departmentName"></td>
+				<td><input name="departmentName" required></td>
 			</tr>
 			<tr>
 				<th>manager</th>
 				<td>
 					<select name="managerId">
+					<option>선택</option>
 						<c:forEach var="mgr" items="${mgrList }">
 						<option value="${mgr.MANAGER_ID }">${mgr.FIRST_NAME }</option>
 						</c:forEach>

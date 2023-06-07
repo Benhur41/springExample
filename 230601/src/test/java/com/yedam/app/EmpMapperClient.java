@@ -13,14 +13,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.yedam.app.emp.mapper.DeptMapper;
 import com.yedam.app.emp.mapper.EmpMapper;
+import com.yedam.app.emp.service.DeptVO;
 import com.yedam.app.emp.service.EmpVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/spring/root-context.xml")
 public class EmpMapperClient {
 	@Autowired
+	DeptMapper deptMapper;
 	EmpMapper empMapper; // 인터페이스를 상속받은 구현클래스 주입 / 
+	
 	
 	@Ignore
 	public void getEmpInfo() {
@@ -54,9 +58,17 @@ public class EmpMapperClient {
 		assertEquals(check,1);
 	}
 	
-	@Test
+	@Ignore
 	public void selectJob() {
 		List<Map<String,Object>> list = empMapper.selectJobs();
 		assertNotNull(list);
+	}
+	
+	@Test
+	public void selectDeptList() {
+		DeptVO vo = new DeptVO();
+		vo.setDepartmentId("10,110");
+		List<DeptVO> list = deptMapper.selectDeptList(vo);
+		System.out.println(list);
 	}
 }

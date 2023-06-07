@@ -17,16 +17,6 @@
 			</if>
 			</where>
 	</sql>
-	<insert id="insertDept">
-		<selectKey keyProperty="departmentId" 
-				   resultType="String" 
-				   order="BEFORE">
-			select max(department_id) +10
-			from departments
-		</selectKey>
-		insert into departments (department_id, department_name,manager_id,location_id)
-		values (#{departmentId},#{departmentName},#{managerId},#{locationId})
-	</insert>
 	<select id="selectDeptOne" resultType="DeptVO">
 		select *
 		from departments
@@ -46,11 +36,6 @@
 			</otherwise>
 		</choose>
 	</select>
-	<select id="selectCount" resultType="int">
-		select count(*) 
-		from employees
-		<include refid="deptSql"></include>
-	</select>
 	<select id="selectManagerId" resultType="map">
 		select distinct(b.manager_id) , a.first_name 
 		from employees a join employees b 
@@ -63,6 +48,16 @@
 	<select id="selectDepartmentId" resultType="map">
 		select department_id,department_name from departments
 	</select>
+	<insert id="insertDept">
+		<selectKey keyProperty="departmentId" 
+				   resultType="String" 
+				   order="BEFORE">
+			select NVL(max(department_id), 0) + 10
+			from departments
+		</selectKey>
+		insert into departments (department_id, department_name,manager_id,location_id)
+		values (#{departmentId},#{departmentName},#{managerId},#{locationId})
+	</insert>
 	<delete id="deleteDept">
 		delete 
 		from departments 
@@ -70,6 +65,12 @@
 	</delete>
 	<update id="updateDept">
 		update departments
+		<!-- <set>
+			<if test="departmentName != null and departmentName != '' ">
+				department_name = #{departmentName}
+			</if>
+			...
+		</set> 이런식으로 들어온값만 변경 가능하다 / , 는 끝에만자동으로 붙여주기 때문에 앞에 , 붙여야한다 -->
 		set department_name=#{departmentName},
 			manager_id=#{managerId},
 			location_id=#{locationId}
