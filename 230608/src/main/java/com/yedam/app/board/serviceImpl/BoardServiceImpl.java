@@ -17,8 +17,8 @@ public class BoardServiceImpl implements BoardService {
 	BoardMapper boardMapper;
 	
 	@Override
-	public List<BoardVO> getBoardList() {
-		return boardMapper.selectBoardList();
+	public List<BoardVO> getBoardList(int page) {
+		return boardMapper.selectBoardList(page);
 	}
 
 	@Override
@@ -60,6 +60,11 @@ public class BoardServiceImpl implements BoardService {
 			result=-1;
 		}
 		return result;
+	}
+
+	@Override
+	public int boardTotalCount() {
+		return boardMapper.boardTotalCount();
 	}
 
 }

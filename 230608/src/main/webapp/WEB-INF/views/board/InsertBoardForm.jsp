@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<form action="insertBoard" method="POST" style="margin:40px">
+	<form id="insertForm" action="insertBoard" method="POST" style="margin:40px">
 <table class="table">
 	<tr>
 		<th>제목</th>
@@ -20,5 +20,34 @@
 	</tr>
 </table>
 <button type="submit">작성</button>
-<button type="button" onclick="location.href='boardList'">목록</button>
 </form>
+<script>
+	document.querySelector('#insertForm').addEventListener('submit',function(e){
+		e.preventDefault();
+		console.log(e.target);
+		
+		let title = document.querySelector('input[name=title]');
+		let writer = document.querySelector('input[name=writer]');
+		let contents = document.querySelector('textarea');
+		
+		
+		if(title.value ==''){
+			alert('제목을 작성하세요');
+			title.focus();
+			return;
+		}
+		if(writer.value ==''){
+			alert('작성자를 작성하세요');
+			writer.focus();
+			return;
+		}
+		if(contents.value ==''){
+			alert('내용을 작성하세요');
+			contents.focus();
+			return;
+		}
+		
+		e.target.submit();
+		
+	})
+</script>

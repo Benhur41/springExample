@@ -4,7 +4,8 @@ import java.util.List;
 
 public interface BoardService {
 	//전체조회
-	public List<BoardVO> getBoardList();
+	public List<BoardVO> getBoardList(int page);
+	public int boardTotalCount();
 	//단건조회
 	public BoardVO getBoardInfo(BoardVO boardVO);
 	//등록 - 등록된 글 번호 반환 / 실패 : -1

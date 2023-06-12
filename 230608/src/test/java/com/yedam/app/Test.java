@@ -19,7 +19,7 @@ public class Test {
 	
 	@org.junit.Test
 	public void testBoard() {
-		List<BoardVO> list = boardMapper.selectBoardList();
+		List<BoardVO> list = boardMapper.selectBoardList(1);
 		System.out.println(list);
 	}
 }

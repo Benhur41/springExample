@@ -1,22 +1,26 @@
 package com.yedam.app.board.service;
 
+
+
 public class PageDTO {
-	private int startPage;
-	private int endPage;
-	private boolean prev,next;
 	
-	private int total;
-	private Criteria cri;
+	private int startPage;//현재 페이지기준으로 젤 처음나오는 페이지
+	private int endPage;	//
+	private boolean prev; //이전페이지 여부
+	private boolean next; //이후페이지 여부
+	private int pageNum;
 	
-	public PageDTO(Criteria cri , int total) {
-		this.cri = cri ;
-		this.total = total;
+	public PageDTO(int pageNum, int total) {
+		System.out.println("PageDTO-pageNum : "+pageNum+", total : "+total);
+		this.pageNum = pageNum;
+		//Math.ceil > 올림연산
+		//start,end page 계산
+		this.endPage = (int)Math.ceil(this.pageNum/10.0)*10;
+		this.startPage = this.endPage-9;
 		
-		this.endPage = (int)(Math.ceil(cri.getPageNum()/10.0)) * 10;
-		this.startPage = this.endPage -9;
-		int realEnd = (int)(Math.ceil((total*1.0)/ cri.getAmount()));
+		int realEnd = (int)(Math.ceil(total/10.0));
 		
-		if(realEnd < this.endPage) {
+		if(realEnd<this.endPage) {
 			this.endPage = realEnd;
 		}
 		
@@ -56,26 +60,19 @@ public class PageDTO {
 		this.next = next;
 	}
 
-	public int getTotal() {
-		return total;
+	public int getPageNum() {
+		return pageNum;
 	}
 
-	public void setTotal(int total) {
-		this.total = total;
-	}
-
-	public Criteria getCri() {
-		return cri;
-	}
-
-	public void setCri(Criteria cri) {
-		this.cri = cri;
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
 	}
 
 	@Override
 	public String toString() {
 		return "PageDTO [startPage=" + startPage + ", endPage=" + endPage + ", prev=" + prev + ", next=" + next
-				+ ", total=" + total + ", cri=" + cri + "]";
+				+ ", pageNum=" + pageNum + "]";
 	}
+	
 	
 }

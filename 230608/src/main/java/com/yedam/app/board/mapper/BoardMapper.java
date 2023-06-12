@@ -6,7 +6,8 @@ import com.yedam.app.board.service.BoardVO;
 
 public interface BoardMapper {
 	//전체조회
-	public List<BoardVO> selectBoardList();
+	public List<BoardVO> selectBoardList(int page);
+	public int boardTotalCount();
 	//단건조회
 	public BoardVO selectBoardInfo(BoardVO boardVO);
 	//등록

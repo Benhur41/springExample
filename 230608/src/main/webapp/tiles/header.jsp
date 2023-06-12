@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="p-3 text-bg-dark">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -8,8 +9,8 @@
         </a>
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="boardList" class="nav-link px-2 text-secondary">Home</a></li>
-          <li><a href="insertBoard" class="nav-link px-2 text-white">write</a></li>
+          <li><a href="<c:url value="boardList"/>" class="nav-link px-2 text-secondary">BoardList</a></li>
+          <li><a href="<c:url value="insertBoard"/>" class="nav-link px-2 text-white">BoardWrite</a></li>
         </ul>
 
         <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
