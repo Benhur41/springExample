@@ -5,21 +5,33 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<security:http pattern="/css/**" security="none" />
+	<security:http pattern="/css/**" security="none" /><!-- security=none 권한이 없어도된다라는 뜻 security 적용 X  -->
 	<security:http><!-- 순차적으로 확인 넓은범위가 맨 아래에 있어야 제대로 걸러진다 -->
 		<security:intercept-url pattern="/top.jsp" access="permitAll()" />
 		<security:intercept-url pattern="/admin/**" access="hasAuthority('ROLE_ADMIN')" />
 		<security:intercept-url pattern="/**" access="isAuthenticated()" />
 		<security:form-login default-target-url="/top.jsp" /><!-- 로그인 성공시 기본적으로 가는 페이지 설정 -->
 		<security:logout logout-url="/logout" logout-success-url="/top.jsp" /><!-- 로그인한 세션의 정보 spring 이 알아서 삭제함 -->
-		<security:csrf disabled="true" />
+		<!-- <security:csrf disabled="true" /> -->
 	</security:http>
+	<!-- bean 의 위치는 사용될 곳보다 위에 있어야한다 -->
+	<bean id="userDetailService" class="com.yedam.app.user.service.CustomUserDetailService"></bean>
 	<security:authentication-manager>
-		<security:authentication-provider>
-			<security:user-service>
-				<security:user name="user" password="{noop}1234" authorities="ROLE_USER" />
-				<security:user name="admin" password="{noop}1234" authorities="ROLE_ADMIN" />
-			</security:user-service>
+		<security:authentication-provider user-service-ref="userDetailService">
+			<!-- 히카리CP 기반으로 연결 -->
+			<!-- select 시 정해진 컬럼 순서가 있다. -->
+			<!-- user-by-username-query 의 select 순서는 username,userpw,enabled 순서 -->
+			<!-- authorities-by-username-query 의 select 순서는 username , authotrity 순서 -->
+			<!-- 이렇게 넣어줘야 spring security 가 인식한다. -->
+				<!-- users-by-username-query="SELECT login_id , '{noop}'||password , 1
+										 FROM t_user
+										 WHERE login_id = ?"
+				authorities-by-username-query="SELECT login_id , role_name
+											   FROM t_user  JOIN t_user_role
+											   ON t_user.id = t_user_role.user_id
+											   				JOIN t_role
+											   ON t_user_role.role_id = t_role.id
+											   WHERE login_id = ?" --> 
 		</security:authentication-provider>
 	</security:authentication-manager>
 
